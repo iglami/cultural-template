@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "title": "Nombre de la Organización: Arte y Cultura",
+    "description": "Teatro, danza y artes escénicas. Cartelera, obras y contacto.",
+    "keywords": "teatro, danza, artes escénicas, cultura, cartelera, obras"
+  },
+  "brand": {
+    "nombre": "Nombre Organización",
+    "tagline": "Frase que define la propuesta artística",
+    "colorAcento": "#1a4be0",
+    "colorFondo": "#ffffff",
+    "colorTexto": "#111111",
+    "tipografiaTitulos": "serif",
+    "tipografiaCuerpo": "sans-serif",
+    "redesSociales": {
+      "instagram": "",
+      "facebook": "",
+      "youtube": "",
+      "tiktok": ""
+    }
+  },
+  "hero": {
+    "titulo": ["Creamos", "escenas"],
+    "subtitulo": "Teatro, danza y artes escénicas que conectan con el público.",
+    "accion": "Ver cartelera",
+    "foto": {
+      "src": "/obras/hero.jpg",
+      "alt": "Imagen principal del escenario o producción",
+      "w": 1600,
+      "h": 900
+    }
+  },
+  "nav": [
+    { "href": "#cartelera", "label": "Cartelera" },
+    { "href": "#obras", "label": "Obras" },
+    { "href": "#equipo", "label": "Equipo" },
+    { "href": "#contacto", "label": "Contacto" }
+  ],
+  "cartelera": {
+    "titulo": "Próximas funciones",
+    "eventos": [
+      {
+        "titulo": "Obra de teatro - Temporada 2026",
+        "fecha": "2026-11-15",
+        "hora": "20:00",
+        "lugar": "Teatro Municipal, Santiago",
+        "descripcion": "Descripción breve de la obra y su elenco.",
+        "imagen": "/obras/obra1.jpg",
+        "precio": "$15.000",
+        "entradas": ""
+      }
+    ]
+  },
+  "obras": {
+    "titulo": "Nuestro repertorio",
+    "descripcion": "Conoce las obras que hemos creado y presentado.",
+    "hoja": [
+      {
+        "src": "/obras/obra1.jpg",
+        "w": 800,
+        "h": 600,
+        "ratio": "4/3",
+        "cap": "Título de la obra, año",
+        "tipo": "Teatro",
+        "director": "Nombre del director",
+        "elenco": "Lista de artistas"
+      }
+    ]
+  },
+  "equipo": {
+    "titulo": "Nuestro equipo",
+    "descripcion": "Artistas, directores y colaboradores.",
+    "miembros": [
+      {
+        "nombre": "Nombre del artista",
+        "rol": "Director artístico",
+        "foto": "/obras/artista1.jpg",
+        "bio": "Breve biografía del artista."
+      }
+    ]
+  },
+  "contacto": {
+    "frase": "¿Quieres trabajar con nosotros?",
+    "correo": "contacto@organizacion.cl",
+    "telefono": "+56 9 1234 5678",
+    "direccion": "Calle Principal 123, Santiago, Chile",
+    "horario": "Lunes a viernes, 9:00 - 18:00",
+    "nota": "Respondemos en 24 horas hábiles."
+  },
+  "footer": {
+    "descripcion": "Organización dedicada a las artes escénicas en Chile.",
+    "direccion": "Calle Principal 123, Santiago",
+    "nav": [
+      { "href": "#cartelera", "label": "Cartelera" },
+      { "href": "#obras", "label": "Obras" },
+      { "href": "#equipo", "label": "Equipo" },
+      { "href": "#contacto", "label": "Contacto" }
+    ],
+    "legal": "© 2026 Nombre Organización. Todos los derechos reservados.",
+    "creditos": {
+      "texto": "Imágenes: dominio público (CC0), fuentes varias",
+      "url": ""
+    }
+  }
+}
