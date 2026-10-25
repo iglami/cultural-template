@@ -2,8 +2,14 @@
 node_modules/
 
 # build
-.out/
+out/
 .next/
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# NOTE: src/app/{favicon.ico,icon.svg,apple-icon.png} SÍ se commitean.
+# Son salida de scripts/make-icons.mjs, pero versionarlos permite clonar y
+# construir la plantilla sin tener ImageMagick instalado.
 
 # variables de entorno
 .env*

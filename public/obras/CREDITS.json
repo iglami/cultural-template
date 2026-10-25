@@ -1,0 +1,58 @@
+{
+  "fuente": "The Metropolitan Museum of Art — Open Access (https://metmuseum.org/openaccess)",
+  "nota": "Imágenes de dominio público dedicadas por CC0. Se permiten uso, modificación y redistribución sin permiso.",
+  "generadasPor": "scripts/fetch-sample-images.mjs",
+  "obras": [
+    {
+      "destino": "hero.jpg",
+      "objectID": 788240,
+      "titulo": "The Theatre",
+      "artista": "Thomas Rowlandson",
+      "nacionalidadArtista": "British",
+      "fechaObra": "1813",
+      "tecnica": "Hand-colored etching and aquatint",
+      "departamento": "Drawings and Prints",
+      "licencia": "CC0 1.0 Universal — dominio público (The Metropolitan Museum of Art Open Access)",
+      "coleccion": "Metropolitan Museum of Art, New York, NY",
+      "paginaObra": "https://www.metmuseum.org/art/collection/search/788240",
+      "imagenOriginal": "https://images.metmuseum.org/CRDImages/dp/original/DP883911.jpg",
+      "procesada": "1280x800px, recorte Center, JPEG calidad 78",
+      "pesoFinalKB": 225,
+      "presupuestoKB": 240
+    },
+    {
+      "destino": "obra1.jpg",
+      "objectID": 547953,
+      "titulo": "Theatrical mask for offering",
+      "artista": null,
+      "nacionalidadArtista": null,
+      "fechaObra": "2nd century CE",
+      "tecnica": "faience",
+      "departamento": "Egyptian Art",
+      "licencia": "CC0 1.0 Universal — dominio público (The Metropolitan Museum of Art Open Access)",
+      "coleccion": "Metropolitan Museum of Art, New York, NY",
+      "paginaObra": "https://www.metmuseum.org/art/collection/search/547953",
+      "imagenOriginal": "https://images.metmuseum.org/CRDImages/eg/original/26.7.1021-gc.jpg",
+      "procesada": "800x600px, recorte Center, JPEG calidad 82",
+      "pesoFinalKB": 90,
+      "presupuestoKB": 140
+    },
+    {
+      "destino": "artista1.jpg",
+      "objectID": 374052,
+      "titulo": "Portrait of Jan Pietersz. Sweelinck, Organist and Musician in Amsterdam",
+      "artista": "Jan Muller",
+      "nacionalidadArtista": "Netherlandish",
+      "fechaObra": "1624",
+      "tecnica": "Engraving; New Holl.s third state of three",
+      "departamento": "Drawings and Prints",
+      "licencia": "CC0 1.0 Universal — dominio público (The Metropolitan Museum of Art Open Access)",
+      "coleccion": "Metropolitan Museum of Art, New York, NY",
+      "paginaObra": "https://www.metmuseum.org/art/collection/search/374052",
+      "imagenOriginal": "https://images.metmuseum.org/CRDImages/dp/original/DP825408.jpg",
+      "procesada": "600x600px, recorte North, JPEG calidad 82",
+      "pesoFinalKB": 87,
+      "presupuestoKB": 120
+    }
+  ]
+}
