@@ -1,5 +1,6 @@
 import content from "@/content/content.json";
 import RedesSociales from "@/components/RedesSociales";
+import { fechaLarga } from "@/lib/fecha";
 import { redesEnlaces } from "@/lib/tema";
 
 /* ============================================================
@@ -71,12 +72,8 @@ export default function HomePage() {
               <div className="evento__info">
                 <h3 className="evento__titulo">{evento.titulo}</h3>
                 <p className="evento__fecha">
-                  {new Date(evento.fecha).toLocaleDateString("es-CL", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}{" "}
+                  {fechaLarga(evento.fecha)}
+                  {" "}
                   · {evento.hora}
                 </p>
                 <p className="evento__lugar">{evento.lugar}</p>

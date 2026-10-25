@@ -156,6 +156,12 @@ Todos los textos, imágenes y datos están en `content.json`:
 
 - `hero`: Título, subtitulo e imagen principal
 - `cartelera`: Eventos próximos con fechas, lugares y precios
+  - `fecha` se escribe como **día calendario** en formato `AAAA-MM-DD`
+    (`"2026-11-15"`), y `hora` como texto en 24 h (`"20:00"`). No se convierten
+    entre zonas horarias: lo que pone la organización es lo que ve el público.
+    El formateo vive en `src/lib/fecha.ts` y es determinista — el HTML exportado
+    no cambia según la máquina que compiló. Se comprueba con
+    `node scripts/prueba-fecha.mts`.
 - `obras`: Galería de obras con imágenes y descripciones
 - `equipo`: Miembros del equipo con fotos y biografías
 - `contacto`: Información de contacto completa
