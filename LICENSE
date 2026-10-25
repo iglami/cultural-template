@@ -19,23 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-NOTA SOBRE ARCHIVOS DE TERCEROS (no forman parte de la licencia MIT anterior)
-
-1. Tipografías. Gambarino y General Sans (Indian Type Foundry, vía Fontshare)
-   se cargan desde el CDN de Fontshare y NO se redistribuyen en este
-   repositorio: no hay archivos .woff2 versionados. Su uso comercial es libre
-   según la Fontshare EULA, pero los archivos de fuente no pueden
-   redistribuirse. Cada sitio derivado debe seguir cargándolas del CDN o
-   licenciarlas por su cuenta. Ver README → "Tipografías y licencias".
-
-2. Imágenes de ejemplo. Las imágenes en public/obras/ provienen de The
-   Metropolitan Museum of Art Open Access (CC0) y su origen consta en
-   public/obras/CREDITS.json. Son material de demostración: el script
-   `npm run nuevo-cliente` las borra al instanciar un sitio para un cliente.
-
-3. Contenido de los clientes. Los textos, marcas e imágenes que cada
-   organización cargue en su propio repositorio derivado pertenecen a esa
-   organización y no están cubiertos por esta licencia.
