@@ -170,7 +170,11 @@ Todos los textos, imágenes y datos están en `content.json`:
 ### 3. Añadir tus propias imágenes
 
 Colocá los originales en `assets/` y ejecutá `npm run optimize-images`: redimensiona
-(al máximo 1600 px de ancho) y escribe en `public/obras/` conservando el nombre.
+(al máximo 1600 px de ancho) y escribe en `public/obras/` conservando **el formato real**
+del archivo (PNG sigue PNG y conserva su transparencia; JPEG y WebP igual). Los SVG y
+otros formatos se ignoran con aviso: copialos a `public/obras/` a mano. Si un archivo
+miente en su extensión (por ejemplo bytes JPEG en un `.png`), se escribe con la
+extensión verdadera y el script lo anuncia, así no queda un PNG roto en el navegador.
 Después actualizá las rutas en `content.json`:
 
 ```json
