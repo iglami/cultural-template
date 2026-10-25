@@ -46,6 +46,7 @@
         "lugar": "Teatro Municipal, Santiago",
         "descripcion": "Descripción breve de la obra y su elenco.",
         "imagen": "/obras/obra1.jpg",
+        "alt": "Máscara teatral egipcia de fayenza, siglo II d.C. (The Metropolitan Museum of Art, dominio público)",
         "precio": "$15.000",
         "entradas": ""
       }
@@ -61,6 +62,7 @@
         "h": 600,
         "ratio": "4/3",
         "cap": "Título de la obra, año",
+        "alt": "Máscara teatral de fayenza, Egipto, siglo II d.C.",
         "tipo": "Teatro",
         "director": "Nombre del director",
         "elenco": "Lista de artistas"
@@ -75,6 +77,7 @@
         "nombre": "Nombre del artista",
         "rol": "Director artístico",
         "foto": "/obras/artista1.jpg",
+        "alt": "Grabado de Jan Muller (1624): retrato de Jan Pietersz. Sweelinck, organista de Ámsterdam. Marcador de posición del retrato del equipo.",
         "bio": "Breve biografía del artista."
       }
     ]
@@ -90,12 +93,6 @@
   "footer": {
     "descripcion": "Organización dedicada a las artes escénicas en Chile.",
     "direccion": "Calle Principal 123, Santiago",
-    "nav": [
-      { "href": "#cartelera", "label": "Cartelera" },
-      { "href": "#obras", "label": "Obras" },
-      { "href": "#equipo", "label": "Equipo" },
-      { "href": "#contacto", "label": "Contacto" }
-    ],
     "legal": "© 2026 Nombre Organización. Todos los derechos reservados.",
     "creditos": {
       "texto": "Imágenes: dominio público (CC0), fuentes varias",

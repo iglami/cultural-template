@@ -88,6 +88,18 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
         />
+        {/*
+          Fallbacks de las tipografías del tema (ver src/lib/tema.ts): Playfair
+          Display suple a Gambarino e Inter/JetBrains Mono son presets alternativos.
+
+          La regla no-page-custom-font existe para pages/_document.js, donde un
+          <link> de fuente puede quedar fuera del documento raíz y cargar en una
+          sola página. Este archivo ES el layout raíz del App Router: el <head>
+          se aplica a todas las rutas, que es justo lo que la regla pide. Se
+          desactiva acá y no globalmente para que siga activa si alguien agrega
+          una fuente dentro de una página.
+        */}
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"

@@ -25,11 +25,26 @@ cultural-template/
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx       # Metadatos, SEO, íconos y carga de tipografías
-│   │   ├── page.tsx         # Página principal
+│   │   ├── page.tsx         # Composición de la página (sin marcado propio)
 │   │   ├── globals.css      # Sistema de diseño con variables CSS
 │   │   ├── favicon.ico      # 16/32/48 px — salida de scripts/make-icons.mjs
 │   │   ├── icon.svg         # Ícono vectorial
 │   │   └── apple-icon.png   # 180×180 px
+│   ├── components/          # Un componente por sección
+│   │   ├── Cabecera.tsx         # banner + nav "Principal"
+│   │   ├── Portada.tsx          # hero (LCP)
+│   │   ├── CarteleraSeccion.tsx # funciones y entradas
+│   │   ├── ObrasSeccion.tsx     # mosaico de obras
+│   │   ├── EquipoSeccion.tsx    # integrantes
+│   │   ├── ContactoSeccion.tsx  # datos de contacto
+│   │   ├── PiePagina.tsx        # contentinfo + nav "Del pie"
+│   │   ├── NavEnlaces.tsx       # mismos enlaces, dos presentaciones
+│   │   └── RedesSociales.tsx    # íconos sociales
+│   ├── lib/
+│   │   ├── contenido.ts     # Tipos derivados de content.json + navegación única
+│   │   ├── tema.ts          # Presets de color/tipografía y derivación del tema
+│   │   ├── fecha.ts         # Formato de fechas determinista (sin zona horaria)
+│   │   └── imagen.ts        # altDe(): texto alternativo con respaldo
 │   └── content/
 │       └── content.json     # Contenido editable (textos, imágenes, datos)
 ├── public/
@@ -40,6 +55,8 @@ cultural-template/
 ├── scripts/
 │   ├── fetch-sample-images.mjs  # Descarga imágenes CC0 de The Met
 │   ├── make-icons.mjs           # Genera los íconos desde assets/
+│   ├── check-theme.mts          # Valida contraste de la marca en el build
+│   ├── prueba-fecha.mts         # Prueba de fechas en 8 zonas horarias
 │   └── optimize-images.mjs      # Optimiza imágenes propias desde assets/
 ├── package.json
 ├── next.config.ts
@@ -48,6 +65,11 @@ cultural-template/
 
 > Las tipografías **no** viven en el repositorio: se sirven desde el CDN de
 > Fontshare (ver *Tipografías y licencias*). El repo no contiene archivos `.woff2`.
+
+**Regla de oro:** `page.tsx` no escribe marcado, compone componentes. Si necesitás
+cambiar cómo se ve una sección, editá su componente; si necesitás cambiar qué dice,
+editá `content.json`. Los tipos de `src/lib/contenido.ts` se derivan del propio
+`content.json`, así que agregar un campo no exige tocar TypeScript.
 
 ## Puesta en marcha
 
@@ -155,6 +177,9 @@ node scripts/prueba-tema.mts
 Todos los textos, imágenes y datos están en `content.json`:
 
 - `hero`: Título, subtitulo e imagen principal
+- `nav`: **única** lista de navegación. La usan la cabecera y el pie; no existe una
+  segunda lista para el pie. Si un `content.json` viejo todavía trae `footer.nav`,
+  se ignora y el build lo avisa por consola (y dice si coincidía con `nav`).
 - `cartelera`: Eventos próximos con fechas, lugares y precios
   - `fecha` se escribe como **día calendario** en formato `AAAA-MM-DD`
     (`"2026-11-15"`), y `hora` como texto en 24 h (`"20:00"`). No se convierten
@@ -165,7 +190,13 @@ Todos los textos, imágenes y datos están en `content.json`:
 - `obras`: Galería de obras con imágenes y descripciones
 - `equipo`: Miembros del equipo con fotos y biografías
 - `contacto`: Información de contacto completa
-- `footer`: Navegación, créditos y datos legales
+- `footer`: Créditos y datos legales
+
+Cada imagen acepta un campo opcional **`alt`** con la descripción para lectores de
+pantalla (`hero.foto`, `cartelera.eventos[].imagen`, `obras.hoja[]`,
+`equipo.miembros[].foto`). Si lo omitís, la página usa un respaldo visible: el título
+del evento, el pie de foto o "Retrato de {nombre}, {rol}". Conviene escribirlo igual —
+el respaldo solo garantiza que nada quede mudo.
 
 ### 3. Añadir tus propias imágenes
 
@@ -197,6 +228,47 @@ durante la carga.
 Mientras definís las fotos propias, `npm run fetch-images` baja obras de dominio
 público y deja su trazabilidad en `public/obras/CREDITS.json`. Reemplazalo antes de
 publicar el sitio definitivo.
+
+## Accesibilidad
+
+La página está armada con landmarks nativos, sin roles ARIA redundantes:
+
+| Elemento | Landmark | Nombre accesible |
+| --- | --- | --- |
+| `<header class="cabecera">` | `banner` | — |
+| `<nav class="cabecera__nav">` | `navigation` | `Principal` |
+| `<main id="contenido" tabindex="-1">` | `main` | — |
+| `<footer class="pie">` | `contentinfo` | — |
+| `<nav class="pie__col">` | `navigation` | `Del pie` |
+
+Decisiones que conviene no romper al editar:
+
+- **Enlace de salto.** `<a class="salto">` es el primer elemento enfocable y apunta a
+  `#contenido`. `<main>` lleva `tabIndex={-1}` a propósito: sin eso el enlace cambia el
+  hash pero **no mueve el foco**, y el lector de pantalla sigue leyendo desde arriba.
+  El `outline` de `main:focus` está suprimido porque dibujaba un recuadro alrededor de
+  toda la página (1265×3160 px medidos).
+- **`scroll-padding-top`.** La cabecera es sticky, así que `html` reserva
+  `calc(var(--alto-cabecera) + 16px)` para que al seguir un anclaje el título de la
+  sección no quede debajo. `--alto-cabecera` está **medido** (71 px por encima de
+  768 px de ancho, 105 px por debajo, donde la navegación se apila). Si cambiás el
+  padding o la tipografía de `.cabecera__interior`, volvé a medirlo: sin este valor,
+  en móvil el título quedaba tapado 45 px.
+- **Texto alternativo.** Cada imagen acepta un campo `alt` opcional en `content.json`.
+  Si falta o está vacío, `altDe()` (`src/lib/imagen.ts`) usa un respaldo visible: el
+  título del evento, el pie de foto de la obra o `Retrato de {nombre}, {rol}`. Así
+  ninguna imagen queda muda aunque el cliente olvide el campo, y el build no se rompe
+  si lo borra (TypeScript infiere el tipo de `content.json`, así que un campo ausente
+  dejaría de existir en el tipo).
+- **Enlaces que abren pestaña nueva.** Llevan `<span class="sr-only"> (se abre en una
+  pestaña nueva)</span>`. `.sr-only` oculta con `clip`, nunca con `display: none` ni
+  `visibility: hidden`, porque esas dos también lo ocultan del lector de pantalla.
+- **Encabezados del pie.** Son `h2`: el pie es una región de primer nivel, no una
+  subsección de la última sección. El CSS también acepta `h3` por compatibilidad.
+
+Para re-auditar: `npm i -D axe-core` (o inyectalo por HTTP en una página servida) y
+corré `axe.run(document)` en la consola. Sobre el export estático la auditoría da
+**0 violaciones y 0 casos incompletos**.
 
 ## Tipografías y licencias
 
@@ -235,6 +307,41 @@ npm run dev
 
 # Abrir http://localhost:3000
 ```
+
+## Controles de calidad
+
+Tres puertas independientes. Ninguna cubre lo que cubren las otras:
+
+```bash
+npm run lint        # ESLint 9 (flat config) — estilo, React, TypeScript, 6 reglas de a11y
+npx tsc --noEmit    # tipos
+npm run build       # corre check-theme (contraste de la marca) y genera out/
+node scripts/prueba-fecha.mts   # fechas idénticas en 8 zonas horarias
+```
+
+**Sobre el lint.** `eslint.config.mjs` usa la configuración flat que documenta
+Next 16 (`eslint-config-next/core-web-vitals` + `/typescript`). El script lleva
+`--max-warnings=0`: sin esa bandera ESLint termina en 0 aunque encuentre
+problemas, porque `eslint-config-next` reporta casi todo como *warning* — la
+puerta dejaba pasar código sucio. Comprobado con una sonda a propósito: una
+variable sin usar y un `<img>` sin `alt` hacen que `npm run lint` falle con
+exit 1.
+
+Límites que conviene conocer:
+
+- `@next/next/no-img-element` está desactivada a propósito. La plantilla exporta
+  estáticamente con `images.unoptimized: true`, así que `next/image` no optimiza
+  nada: solo agrega JS y un wrapper. `<img>` con `width`/`height` explícitos es
+  lo correcto acá.
+- `eslint-config-next` activa **85 reglas**, de las cuales solo **6** son de
+  accesibilidad (`alt-text`, `aria-props`, `aria-proptypes`,
+  `aria-unsupported-elements`, `role-has-required-aria-props`,
+  `role-supports-aria-props`). **No** incluye las de interacción por teclado
+  (`click-events-have-key-events`, `no-static-element-interactions`): un
+  `<div onClick>` pasa el lint. Si agregás interactividad, revisá el teclado a
+  mano o sumá `jsx-a11y/recommended`.
+- La accesibilidad real se verifica con **axe-core** sobre el export (ver
+  *Accesibilidad*), no con el lint.
 
 ## Construcción y Despliegue
 

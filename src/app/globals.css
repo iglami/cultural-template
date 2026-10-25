@@ -31,6 +31,10 @@
   /* Peso real de la cara de titulares elegida. Gambarino solo existe en 400:
      pedir 700 hace que el navegador fabrique una negrita falsa. */
   --peso-titulos: 400;
+  /* Alto real de la cabecera sticky, medido en el navegador. Lo usa
+     scroll-padding-top para que los anclajes no escondan títulos debajo.
+     Se sobreescribe en el corte de 768px, donde la navegación se apila. */
+  --alto-cabecera: 71px;
   --tamano-base: 16px;
   --tamano-titulo-hero: clamp(2.5rem, 8vw, 5rem);
   --tamano-titulo-seccion: clamp(1.75rem, 4vw, 2.5rem);
@@ -62,6 +66,12 @@
 html {
   font-size: var(--tamano-base);
   scroll-behavior: smooth;
+  /* La cabecera es sticky: sin este padding, al seguir un anclaje (#obras) el
+     título de la sección queda escondido debajo. Los valores salen de
+     --alto-cabecera, medidos en el navegador (71px sobre 768px de ancho,
+     105px por debajo, donde la navegación se apila). Si cambiás el padding o
+     el tamaño de la marca en .cabecera__interior, hay que volver a medirlos. */
+  scroll-padding-top: calc(var(--alto-cabecera) + 16px);
 }
 
 body {
@@ -422,6 +432,9 @@ p {
   gap: 32px;
 }
 
+/* Los títulos del pie son h2: el pie es una región de primer nivel, no una
+   subsección de la última sección. h3 queda por si un contenido viejo lo usa. */
+.pie__col h2,
 .pie__col h3 {
   margin-bottom: 16px;
   font-size: 1.125rem;
@@ -520,6 +533,8 @@ p {
   :root {
     --margen: 16px;
     --espaciado-seccion: 60px;
+    /* La navegación se apila bajo la marca y la cabecera crece: medido 105px. */
+    --alto-cabecera: 105px;
   }
 
   .cabecera__interior {
@@ -585,4 +600,57 @@ p {
 :focus-visible {
   outline: 2px solid var(--color-acento);
   outline-offset: 2px;
+}
+
+/* ============================================================
+   ENLACE DE SALTO Y TEXTO SOLO PARA LECTORES DE PANTALLA
+   ============================================================ */
+
+/* Texto para el lector de pantalla que no se ve: anuncios como «(se abre en
+   una pestaña nueva)». No usar display:none ni visibility:hidden, porque eso
+   también lo oculta del lector. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Primer elemento enfocable de la página: aparece al recibir foco para que
+   quien navega con teclado no tenga que atravesar toda la navegación antes de
+   llegar al contenido. Es `fixed` a propósito: con `absolute`, al recibir foco
+   ya habiendo scrolleado la página saltaría al principio del documento. */
+.salto {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200; /* .cabecera es sticky con z-index 100 */
+  transform: translateY(-200%);
+  padding: 12px 20px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  border: 2px solid var(--color-acento);
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.salto:focus {
+  transform: translateY(0);
+}
+
+/* El enlace de salto mueve el foco a <main> (por eso lleva tabIndex={-1}).
+   Sin esta regla el navegador dibuja un recuadro de foco de 2px alrededor de
+   TODA la página — medido: 1265×3160px — que no señala nada útil. El foco
+   sigue siendo funcional para el lector de pantalla, que anuncia «región
+   principal»; la indicación visible ya la dio el enlace de salto al activarse. */
+main:focus {
+  outline: none;
 }

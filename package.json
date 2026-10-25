@@ -7,7 +7,7 @@
     "check-theme": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-theme.mts",
     "build": "npm run check-theme && next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "optimize-images": "node scripts/optimize-images.mjs",
     "fetch-images": "node scripts/fetch-sample-images.mjs",
     "make-icons": "node scripts/make-icons.mjs"

@@ -58,7 +58,7 @@ for (const zona of ZONAS) {
   salidas.set(zona, r.stdout);
 }
 
-const [primera, ...restantes] = [...salidas.values()];
+const [primera] = [...salidas.values()];
 if (!primera) {
   console.log("FALLO: ninguna zona produjo salida");
   process.exit(1);
