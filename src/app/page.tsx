@@ -1,4 +1,6 @@
 import content from "@/content/content.json";
+import RedesSociales from "@/components/RedesSociales";
+import { redesEnlaces } from "@/lib/tema";
 
 /* ============================================================
    Página principal — WebMaster para organizaciones culturales
@@ -155,6 +157,10 @@ export default function HomePage() {
             <h3>{brand.nombre}</h3>
             <p>{footer.descripcion}</p>
             <p>{footer.direccion}</p>
+            <RedesSociales
+              enlaces={redesEnlaces(brand.redesSociales)}
+              organizacion={brand.nombre}
+            />
           </div>
           <div className="pie__col">
             <h3>Navegación</h3>

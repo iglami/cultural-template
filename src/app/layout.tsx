@@ -1,10 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import content from "@/content/content.json";
+import { buildTheme, themeStyle } from "@/lib/tema";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ejemplo.cl";
 const ogImage = `${siteUrl}/obras/hero.jpg`;
+
+/**
+ * Tema derivado de content.brand. Se calcula una sola vez en el servidor: el
+ * sitio es una exportación estática, así que el resultado queda fijado en el
+ * HTML y no hay costo en tiempo de ejecución ni parpadeo de estilos.
+ */
+const tema = buildTheme(content.brand);
 
 export const metadata: Metadata = {
   title: content.meta.title,
@@ -37,16 +45,53 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  // Los íconos los resuelve Next desde src/app/ (favicon.ico, icon.svg,
+  // apple-icon.png). Ver scripts/make-icons.mjs. No hace falta declararlos a mano.
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
+    shortcut: ["/favicon.ico"],
+  },
+};
+
+export const viewport: Viewport = {
+  // El color de la barra del navegador sigue al acento de la marca.
+  themeColor: tema.variables["--color-acento"],
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="es">
+    <html lang="es" style={themeStyle(tema)}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/*
+          Tipografías: Gambarino y General Sans son de Fontshare (Indian Type
+          Foundry). Su licencia permite uso comercial gratuito pero PROHÍBE
+          redistribuir los archivos, así que se sirven desde el CDN de Fontshare
+          y no se commitean en el repositorio. Playfair Display, Inter y JetBrains
+          Mono son la alternativa bajo SIL OFL, cargadas en segundo plano por si
+          el CDN falla.
+        */}
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/*
+          Fontshare sirve una sola familia por request: si se combinan dos
+          parámetros f[] en la misma URL, el segundo se ignora en silencio.
+          Por eso Gambarino y General Sans se cargan en hojas separadas.
+        */}
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=gambarino@400&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        />
       </head>
       <body>{children}</body>
     </html>

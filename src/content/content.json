@@ -10,10 +10,10 @@
     "colorAcento": "#1a4be0",
     "colorFondo": "#ffffff",
     "colorTexto": "#111111",
-    "tipografiaTitulos": "serif",
-    "tipografiaCuerpo": "sans-serif",
+    "tipografiaTitulos": "serif-condensada",
+    "tipografiaCuerpo": "sans",
     "redesSociales": {
-      "instagram": "",
+      "instagram": "@nombre.organizacion",
       "facebook": "",
       "youtube": "",
       "tiktok": ""
@@ -25,9 +25,9 @@
     "accion": "Ver cartelera",
     "foto": {
       "src": "/obras/hero.jpg",
-      "alt": "Imagen principal del escenario o producción",
-      "w": 1600,
-      "h": 900
+      "alt": "Grabado satírico de «The Theatre»: interior de un coliseo con butacas ocupadas, palcos y telón. Obra de dominio público del Metropolitan Museum of Art",
+      "w": 1280,
+      "h": 800
     }
   },
   "nav": [

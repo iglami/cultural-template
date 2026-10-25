@@ -1,12 +1,16 @@
 {
-  "name": "webmaster-template",
+  "name": "cultural-template",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "check-theme": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-theme.mts",
+    "build": "npm run check-theme && next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "fetch-images": "node scripts/fetch-sample-images.mjs",
+    "make-icons": "node scripts/make-icons.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

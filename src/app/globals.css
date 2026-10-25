@@ -5,17 +5,32 @@
    ============================================================ */
 
 :root {
-  /* -- COLORES -- Configurables por cliente */
+  /* -- COLORES --
+     Valores por defecto. En tiempo de construcción, layout.tsx los sobreescribe
+     en <html style="…"> a partir de content.brand (ver src/lib/tema.ts), así que
+     lo que se edita por cliente es content.json, no este archivo. */
   --color-fondo: #ffffff;
   --color-superficie: #f5f5f5;
   --color-texto: #111111;
   --color-texto-secundario: #6b6b6b;
   --color-acento: #1a4be0;
   --color-acento-hover: #1539b3;
+  --color-acento-pie: #6f95f5;
+  --color-texto-sobre-acento: #ffffff;
+  --color-fondo-pie: #111111;
+  --color-texto-pie: #ffffff;
+  --color-texto-pie-atenuado: #d9d9d9;
 
   /* -- TIPOGRAFÍA -- */
-  --fuente-titulos: "Gambarino", Georgia, serif;
-  --fuente-cuerpo: "General Sans", system-ui, sans-serif;
+  /* Gambarino y General Sans se sirven desde el CDN de Fontshare (ver layout.tsx).
+     Playfair Display / Inter son la alternativa OFL; Georgia y system-ui el último
+     recurso si ningún CDN responde. */
+  --fuente-titulos: "Gambarino", "Playfair Display", Georgia, "Times New Roman", serif;
+  --fuente-cuerpo: "General Sans", Inter, "Helvetica Neue", system-ui, -apple-system, sans-serif;
+  --fuente-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Peso real de la cara de titulares elegida. Gambarino solo existe en 400:
+     pedir 700 hace que el navegador fabrique una negrita falsa. */
+  --peso-titulos: 400;
   --tamano-base: 16px;
   --tamano-titulo-hero: clamp(2.5rem, 8vw, 5rem);
   --tamano-titulo-seccion: clamp(1.75rem, 4vw, 2.5rem);
@@ -86,7 +101,7 @@ a:focus-visible {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--fuente-titulos);
-  font-weight: 700;
+  font-weight: var(--peso-titulos);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -118,12 +133,12 @@ p {
 
 .btn--primario {
   background-color: var(--color-acento);
-  color: #ffffff;
+  color: var(--color-texto-sobre-acento);
 }
 
 .btn--primario:hover {
   background-color: var(--color-acento-hover);
-  color: #ffffff;
+  color: var(--color-texto-sobre-acento);
 }
 
 .btn--secundario {
@@ -134,7 +149,7 @@ p {
 
 .btn--secundario:hover {
   background-color: var(--color-acento);
-  color: #ffffff;
+  color: var(--color-texto-sobre-acento);
 }
 
 /* ============================================================
@@ -161,7 +176,7 @@ p {
 .cabecera__marca {
   font-family: var(--fuente-titulos);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--peso-titulos);
 }
 
 .cabecera__nav {
@@ -394,8 +409,8 @@ p {
    ============================================================ */
 
 .pie {
-  background-color: var(--color-texto);
-  color: var(--color-fondo);
+  background-color: var(--color-fondo-pie);
+  color: var(--color-texto-pie);
   padding: 48px var(--margen);
 }
 
@@ -421,21 +436,56 @@ p {
 }
 
 .pie__col a {
-  color: var(--color-fondo);
+  color: var(--color-texto-pie);
 }
 
 .pie__col a:hover {
-  color: var(--color-acento);
+  color: var(--color-acento-pie);
 }
 
 .pie__legal {
   font-size: var(--tamano-pequeno);
-  color: var(--color-texto-secundario);
+  color: var(--color-texto-pie-atenuado);
 }
 
 .pie__creditos {
   margin-top: 16px;
   font-size: var(--tamano-pequeno);
+}
+
+/* -- REDES SOCIALES --
+   Se renderizan solo si content.brand.redesSociales tiene algún valor.
+   El ícono es SVG inline con currentColor: hereda el color del pie y del hover. */
+.pie__sociales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--color-texto-pie);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.pie__social:hover {
+  color: var(--color-acento-pie);
+  border-color: var(--color-acento-pie);
+}
+
+.pie__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 /* ============================================================
