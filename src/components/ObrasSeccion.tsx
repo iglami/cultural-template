@@ -16,12 +16,14 @@ export default function ObrasSeccion({ obras }: { obras: Obras }) {
       <div className="obras__grid">
         {obras.hoja.map((obra, i) => (
           <figure key={i} className="obra">
-            <img
-              src={obra.src}
-              alt={altDe(obra, obra.cap)}
-              loading="lazy"
-              decoding="async"
-            />
+            {obra.src && (
+              <img
+                src={obra.src}
+                alt={altDe(obra, obra.cap)}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
             <figcaption className="obra__pie">
               <span className="obra__titulo">{obra.cap}</span>
               {obra.tipo && <span className="obra__tipo">{obra.tipo}</span>}

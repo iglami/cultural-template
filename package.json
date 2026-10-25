@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "optimize-images": "node scripts/optimize-images.mjs",
+    "nuevo-cliente": "node scripts/nuevo-cliente.mjs",
     "fetch-images": "node scripts/fetch-sample-images.mjs",
     "make-icons": "node scripts/make-icons.mjs"
   },

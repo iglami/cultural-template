@@ -14,7 +14,13 @@ import { altDe } from "@/lib/imagen";
  * texto visible "Comprar entradas" se repite en cada evento: sin contexto, un
  * lector de pantalla anunciaría varios enlaces idénticos.
  */
-export default function CarteleraSeccion({ cartelera }: { cartelera: Cartelera }) {
+export default function CarteleraSeccion({
+  cartelera,
+  locale,
+}: {
+  cartelera: Cartelera;
+  locale: string;
+}) {
   return (
     <section id="cartelera" className="seccion cartelera">
       <h2 className="seccion__titulo">{cartelera.titulo}</h2>
@@ -34,7 +40,7 @@ export default function CarteleraSeccion({ cartelera }: { cartelera: Cartelera }
             <div className="evento__info">
               <h3 className="evento__titulo">{evento.titulo}</h3>
               <p className="evento__fecha">
-                {fechaLarga(evento.fecha)}
+                {fechaLarga(evento.fecha, locale)}
                 {" "}
                 · {evento.hora}
               </p>

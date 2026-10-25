@@ -7,6 +7,13 @@ out/
 tsconfig.tsbuildinfo
 next-env.d.ts
 
+# GENERADO por scripts/check-theme.mts en cada build, y no lo importa nadie:
+# es una copia revisable del tema derivado de content.brand. Se desversiona
+# porque cambia con la marca de CADA cliente — versionado, es un conflicto
+# asegurado al traer mejoras de la plantilla a un sitio ya entregado.
+# Se regenera solo con `npm run build`.
+src/app/tema.module.css
+
 # NOTE: src/app/{favicon.ico,icon.svg,apple-icon.png} SÍ se commitean.
 # Son salida de scripts/make-icons.mjs, pero versionarlos permite clonar y
 # construir la plantilla sin tener ImageMagick instalado.

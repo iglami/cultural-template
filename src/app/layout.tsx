@@ -2,10 +2,21 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import content from "@/content/content.json";
 import { buildTheme, themeStyle } from "@/lib/tema";
+import { imagenPortada, langHtml, localeDe, localeOg } from "@/lib/contenido";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ejemplo.cl";
-const ogImage = `${siteUrl}/obras/hero.jpg`;
+
+/**
+ * La imagen social sale de `hero.foto.src`, no de una ruta fija: al instanciar un
+ * sitio `npm run nuevo-cliente` borra las imágenes de ejemplo, y un `og:image`
+ * hardcodeado dejaría la tarjeta social del cliente apuntando a un 404.
+ * Sin foto de portada no se declara `og:image` — mejor ninguna que una rota.
+ */
+const portada = imagenPortada(content);
+const ogImage = portada
+  ? `${siteUrl}${portada.startsWith("/") ? "" : "/"}${portada}`
+  : "";
 
 /**
  * Tema derivado de content.brand. Se calcula una sola vez en el servidor: el
@@ -24,22 +35,27 @@ export const metadata: Metadata = {
     description: content.meta.description,
     url: siteUrl,
     siteName: content.brand.nombre,
-    images: [
-      {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: content.brand.tagline,
-      },
-    ],
-    locale: "es_CL",
+    ...(ogImage
+      ? {
+          images: [
+            {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: content.brand.tagline,
+            },
+          ],
+        }
+      : {}),
+    locale: localeOg(localeDe(content)),
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
+    // Sin foto de portada no tiene sentido pedir la tarjeta grande.
+    card: ogImage ? "summary_large_image" : "summary",
     title: content.meta.title,
     description: content.meta.description,
-    images: [ogImage],
+    ...(ogImage ? { images: [ogImage] } : {}),
   },
   robots: {
     index: true,
@@ -62,7 +78,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="es" style={themeStyle(tema)}>
+    <html lang={langHtml(content)} style={themeStyle(tema)}>
       <head>
         {/*
           Tipografías: Gambarino y General Sans son de Fontshare (Indian Type

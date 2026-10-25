@@ -3,7 +3,9 @@
  *
  * Lee content.brand, construye el tema con las mismas reglas que usa el sitio y
  * escribe src/app/tema.module.css con una copia de las variables. Ese módulo no
- * se importa: existe para que el tema calculado quede revisable en el diff.
+ * se importa: existe para dejar revisable el tema calculado en disco. Está
+ * desversionado (ver .gitignore) porque su contenido cambia con la marca de cada
+ * cliente y no hay nada que fusionar entre la plantilla y sus sitios.
  *
  * Requiere Node 22.18 o superior, que ejecuta TypeScript de forma nativa
  * (type stripping), así que el script importa src/lib/tema.ts directamente en

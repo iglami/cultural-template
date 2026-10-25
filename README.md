@@ -57,7 +57,9 @@ cultural-template/
 │   ├── make-icons.mjs           # Genera los íconos desde assets/
 │   ├── check-theme.mts          # Valida contraste de la marca en el build
 │   ├── prueba-fecha.mts         # Prueba de fechas en 8 zonas horarias
-│   └── optimize-images.mjs      # Optimiza imágenes propias desde assets/
+│   ├── optimize-images.mjs      # Optimiza imágenes propias desde assets/
+│   └── nuevo-cliente.mjs        # Vacía el contenido de ejemplo al instanciar un sitio
+├── LICENSE                  # MIT + notas sobre tipografías e imágenes de terceros
 ├── package.json
 ├── next.config.ts
 └── tsconfig.json
@@ -65,6 +67,10 @@ cultural-template/
 
 > Las tipografías **no** viven en el repositorio: se sirven desde el CDN de
 > Fontshare (ver *Tipografías y licencias*). El repo no contiene archivos `.woff2`.
+>
+> `src/app/tema.module.css` tampoco está versionado: lo genera `check-theme.mts`
+> en cada build como copia revisable del tema derivado, y su contenido cambia con
+> la marca de cada cliente (ver *.gitignore*).
 
 **Regla de oro:** `page.tsx` no escribe marcado, compone componentes. Si necesitás
 cambiar cómo se ve una sección, editá su componente; si necesitás cambiar qué dice,
@@ -86,6 +92,71 @@ por otro trabajo, elegí uno libre y pasalo explícitamente:
 ```bash
 npx next dev -p 3210 -H 0.0.0.0   # también accesible desde otros dispositivos
 ```
+
+## Un repo por cliente
+
+Este repositorio es una **plantilla** (GitHub → *Use this template*), no un
+proyecto con ramas por cliente. Cada organización tiene su propio repo —en general
+privado— con su `content.json`, sus imágenes y su dominio. Así el material de un
+cliente nunca comparte historia con el de otro, y la plantilla sigue siendo pública
+y reutilizable.
+
+### Instanciar un sitio nuevo
+
+1. En GitHub: **Use this template** → *Create a new repository*. Elegí privado y
+   **no** marques *include all branches*: querés el código, no la historia de la
+   plantilla.
+2. Cloná e instalá:
+
+   ```bash
+   git clone git@github.com:tu-org/sitio-cliente.git && cd sitio-cliente
+   npm ci
+   ```
+
+3. Vaciá el contenido de ejemplo:
+
+   ```bash
+   npm run nuevo-cliente -- --nombre "Compañía de Teatro X" --locale es-AR
+   ```
+
+   Sin `--force` solo imprime el plan (dry-run), sin escribir nada. Con `--force`
+   borra las imágenes de The Met, deja `CREDITS.json` vacío, reescribe
+   `content.json` con placeholders `[entre corchetes]` y crea `.env.local`.
+   **No commitea nada**: revisá con `git diff`.
+
+4. Completá `content.json`, poné el logo del cliente en `assets/` y corré
+   `npm run make-icons`; después las fotos con `npm run optimize-images`.
+
+El script se niega a correr si `origin` apunta a `cultural-template`: la plantilla
+necesita conservar su contenido de ejemplo para demostrar cómo se ve el sitio.
+`--forzar` salta esa guarda (y la de árbol sucio).
+
+Los íconos de marca (`favicon.ico`, `icon.svg`, `apple-icon.png`) **no** se borran,
+para no dejar el sitio sin favicon: el script los lista como pendiente explícito.
+
+### Traer mejoras de la plantilla a un sitio entregado
+
+El motor (`src/lib/`, `src/components/`, `src/app/`) se trata como **solo lectura**
+en los repos de clientes: lo que cambia, cambia acá y baja.
+
+```bash
+git remote add template https://github.com/iglami/cultural-template.git
+git fetch template
+git merge template/main
+```
+
+Los conflictos se concentran en `content.json`, que es justo el archivo que cada
+cliente edita: resolvelos conservando el contenido del cliente. Por eso la
+plantilla no versiona artefactos que cambian con la marca, como `tema.module.css`.
+
+### Locale
+
+`content.meta.locale` (BCP 47: `es-CL`, `es-AR`, `es-MX`, `en-US`…) define el
+idioma de las fechas de la cartelera y el `og:locale`. El motor no hardcodea
+ningún país: si el valor falta o es inválido, `fecha.ts` avisa durante el build y
+usa `LOCALE_POR_DEFECTO` (`es-CL`) en vez de caerse.
+`node scripts/prueba-fecha.mts` comprueba que el locale venga del dato y no de la
+máquina que compila.
 
 ## Personalización por Cliente
 
@@ -376,9 +447,17 @@ Arrastra la carpeta `out/` a Netlify o conecta el repositorio en Vercel.
 
 ## Licencia
 
-MIT — Uso libre para proyectos comerciales y personales. La licencia MIT cubre el
-código; **no** cubre las tipografías, que se rigen por sus propias EULA (ver
-*Tipografías y licencias*).
+MIT — ver [`LICENSE`](./LICENSE). Uso libre para proyectos comerciales y
+personales, incluidos los sitios que deriven de esta plantilla.
+
+La licencia MIT cubre el **código**; no cubre:
+
+- **Las tipografías**, que se rigen por sus propias EULA y no se redistribuyen
+  (ver *Tipografías y licencias*).
+- **Las imágenes de ejemplo** de The Met (CC0, origen en `public/obras/CREDITS.json`),
+  que `npm run nuevo-cliente` borra al instanciar un sitio.
+- **El contenido de cada cliente**: los textos, marcas y fotos que una
+  organización cargue en su repo derivado son de esa organización.
 
 ## Créditos
 

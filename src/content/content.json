@@ -2,7 +2,8 @@
   "meta": {
     "title": "Nombre de la Organización: Arte y Cultura",
     "description": "Teatro, danza y artes escénicas. Cartelera, obras y contacto.",
-    "keywords": "teatro, danza, artes escénicas, cultura, cartelera, obras"
+    "keywords": "teatro, danza, artes escénicas, cultura, cartelera, obras",
+    "locale": "es-CL"
   },
   "brand": {
     "nombre": "Nombre Organización",

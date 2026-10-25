@@ -15,7 +15,7 @@
  * enlace de salto.
  */
 import content from "@/content/content.json";
-import { navegacion } from "@/lib/contenido";
+import { navegacion, localeDe } from "@/lib/contenido";
 import Cabecera from "@/components/Cabecera";
 import Portada from "@/components/Portada";
 import CarteleraSeccion from "@/components/CarteleraSeccion";
@@ -37,7 +37,7 @@ export default function Pagina() {
 
       <main id="contenido" tabIndex={-1}>
         <Portada hero={content.hero} />
-        <CarteleraSeccion cartelera={content.cartelera} />
+        <CarteleraSeccion cartelera={content.cartelera} locale={localeDe(content)} />
         <ObrasSeccion obras={content.obras} />
         <EquipoSeccion equipo={content.equipo} />
         <ContactoSeccion contacto={content.contacto} />
